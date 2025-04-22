@@ -1,4 +1,4 @@
 /vendor/
 /.idea/
 .env
-.database.sqlite
+database.sqlite
