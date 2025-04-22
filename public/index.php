@@ -68,8 +68,8 @@ $app->post('/login', function ($request, $response) use ($router) {
     if ($user || $email === ADMIN_EMAIL) {
         session_regenerate_id(true);
         $_SESSION['authenticated'] = true;
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['email'] = $user['email'];
+        $_SESSION['user_id'] = $user['id'] ?? null;
+        $_SESSION['email'] = $user['email'] ?? null;
 
         $this->get('flash')->addMessage('success', 'Добро пожаловать!');
         $url = $router->urlFor('users');

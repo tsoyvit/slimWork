@@ -1,7 +1,7 @@
 
 <h1>Login</h1>
 
-<?php if (!empty($flash)): ?>
+<?php if (!empty($flash['error'])): ?>
     <p style="color: red"><?= $flash['error'][0]?></p>
 <?php endif; ?>
 <p>Введите «admin@mail.com» или почту существующего пользователя</p>
