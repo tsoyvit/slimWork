@@ -1,0 +1,27 @@
+<h1>Новый пользователь</h1>
+
+<hr>
+
+<form action="/users" method="post">
+    <div>
+        <label>Имя:</label>
+        <label>
+            <input type="text" name="user[name]" value="<?= htmlspecialchars($user['name'] ?? '') ?>">
+        </label>
+        <?php if (isset($errors['name'])) : ?>
+        <div><?= $errors['name'] ?></div>
+        <?php endif; ?>
+    </div>
+
+    <div>
+        <label>Почта:</label>
+        <label>
+            <input type="email" name="user[email]" value="<?= htmlspecialchars($user['email'] ?? '') ?>">
+        </label>
+        <?php if (isset($errors['email'])) : ?>
+        <div><?= $errors['email'] ?></div>
+        <?php endif; ?>
+    </div>
+    <button type="submit">Создать</button>
+
+</form>

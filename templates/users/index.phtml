@@ -1,0 +1,113 @@
+<?php
+
+/**
+ * @var $allUsers
+ * @var $users array
+ */
+
+if (session_status() === PHP_SESSION_NONE) {
+    throw new RuntimeException('Sessions not initialized');
+}
+
+?>
+
+<a href="/users/new">Создать пользователя</a>
+<hr>
+
+<form action="/users" method="get">
+    <label>
+        <input type="search" name="term" placeholder="поиск по имени">
+    </label>
+    <input type="submit" value="Поиск"/>
+</form>
+
+<?php if (isset($flash['success'])) : ?>
+    <hr>
+    <div>
+        <?php foreach ($flash['success'] as $message) : ?>
+            <p><?= htmlspecialchars($message) ?></p>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
+
+<hr>
+<h2>Результат поиска:</h2>
+
+<?php if (!empty($flash['nothing'])) : ?>
+    <div>
+        <?php foreach ($flash['nothing'] as $message) : ?>
+            <p><?= htmlspecialchars($message) ?></p>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
+
+<?php if (!empty($users)) : ?>
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>nickname</th>
+            <th>email</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($users as $user) : ?>
+            <tr>
+                <td><?= htmlspecialchars($user['id']) ?></td>
+                <td><?= htmlspecialchars($user['name']) ?></td>
+                <td><?= htmlspecialchars($user['email']) ?></td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php endif; ?>
+
+<hr>
+<div>
+    <form action="/logout" method="post">
+        <button type="submit" style="background-color: yellow">Выйти</button>
+    </form>
+</div>
+
+<h2>Все пользователи:</h2>
+<table>
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>nickname</th>
+        <th>email</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($allUsers as $item) : ?>
+        <tr>
+            <td><?= htmlspecialchars($item['id']) ?></td>
+            <td><a href="/users/<?= htmlspecialchars($item['id']) ?>"><?= htmlspecialchars($item['name']) ?></a></td>
+            <td><?= htmlspecialchars($item['email']) ?></td>
+            <td><a href="/users/<?= htmlspecialchars($item['id']) ?>/edit">Редактировать</a></td>
+            <td>
+                <button class="openDialogBtn" data-user-id="<?= $item['id'] ?>">Удалить</button>
+                <dialog class="deleteDialog" data-user-id="<?= $item['id'] ?>">
+                    <p>Вы уверены?</p>
+                    <form action="/users/<?= $item['id'] ?>" method="post">
+                        <input type="hidden" name="_METHOD" value="DELETE">
+                        <button type="button" class="cancelBtn">Отмена</button>
+                        <button type="submit">Удалить</button>
+                    </form>
+                </dialog>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+
+<script>
+    document.querySelectorAll('.openDialogBtn').forEach(btn => {
+        const userId = btn.dataset.userId;
+        const dialog = document.querySelector(`.deleteDialog[data-user-id="${userId}"]`);
+        const cancelBtn = dialog.querySelector('.cancelBtn');
+
+        btn.addEventListener('click', () => dialog.showModal());
+        cancelBtn.addEventListener('click', () => dialog.close());
+    });
+</script>

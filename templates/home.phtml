@@ -1,0 +1,12 @@
+<h1>Login</h1>
+
+<?php if (!empty($flash)): ?>
+    <p style="color: red"><?= $flash['error'][0]?></p>
+<?php endif; ?>
+<p>Введите «admin@mail.com» или почту существующего пользователя</p>
+<form action="/login" method="post">
+    <label>
+        <input type="text" name="email">
+    </label>
+    <input type="submit" value="Login">
+</form>

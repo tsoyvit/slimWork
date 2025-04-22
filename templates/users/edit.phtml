@@ -1,0 +1,36 @@
+<h1>Редактировать пользователя</h1>
+
+<?php if (isset($flash['success'])) :  ?>
+    <hr>
+    <div>
+        <?php foreach ($flash['success'] as $message) : ?>
+            <p><?= htmlspecialchars($message) ?></p>
+        <?php endforeach;  ?>
+    </div>
+<?php endif;  ?>
+
+<hr>
+
+<form action="/users/<?= htmlspecialchars($user['id']) ?>" method="post">
+    <div>
+        <label>Nickname:</label>
+        <label>
+            <input type="text" name="user[name]" value="<?= htmlspecialchars($user['name'] ?? '') ?>">
+        </label>
+        <?php if (isset($errors['name'])) : ?>
+            <div><?= $errors['name'] ?></div>
+        <?php endif; ?>
+    </div>
+
+    <div>
+        <label>email:</label>
+        <label>
+            <input type="email" name="user[email]" value="<?= htmlspecialchars($user['email'] ?? '') ?>">
+        </label>
+        <?php if (isset($errors['email'])) : ?>
+            <div><?= $errors['email'] ?></div>
+        <?php endif; ?>
+    </div>
+    <input type="hidden" name="_METHOD" value="PATCH">
+    <button type="submit">Подтвердить</button>
+</form>
