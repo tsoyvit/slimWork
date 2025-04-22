@@ -1,2 +1,22 @@
+PORT ?= 8001
+
 start:
-	php -S localhost:8001 -t public public/index.php
+	php -S 0.0.0.0:$(PORT) -t public public/index.php
+
+setup:
+	composer install
+
+compose:
+	docker-compose up
+
+compose-bash:
+	docker-compose run web bash
+
+compose-setup: compose-build
+	docker-compose run web make setup
+
+compose-build:
+	docker-compose build
+
+compose-down:
+	docker-compose down -v
